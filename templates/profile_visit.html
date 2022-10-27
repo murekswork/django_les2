@@ -2,15 +2,74 @@
 
 {% block content %}
     <div class="account-overview-container">
-        <div class="profile">
-            <h1>Profile name: {{ profile.nickname }}</h1>
-            <img src="{{ profile.image_url }}" height="50px" width="50px" alt="">
-            <p>Profile age: {{ profile.age }}</p>
-            <p>Profile about: {{ profile.about }}</p>
-        </div>
+{#        <div class="profile">#}
+{#            <h1>{{ profile.nickname }}</h1>#}
+{#            <img src="{{ profile.image_url }}" height="50px" width="50px" alt="">#}
+{#            <p>Age: {{ profile.age }}</p>#}
+{#            <p>About: {{ profile.about }}</p>#}
+{#        </div>#}
+
+        <div class="container mt-5 d-flex justify-content-center">
+
+            <div class="card p-3">
+
+                <div class="d-flex align-items-center">
+
+                    <div class="image">
+                <img src="{{ profile.image_url }}" class="rounded" width="155" >
+                </div>
+
+                <div class="ml-5 w-150">
+
+                   <h4 class="mb-0 mt-0">{{ profile.nickname}}</h4>
+                   <span>{{ profile.about }}</span>
+
+                   <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+
+                    <div class="d-flex flex-column">
+
+                        <span class="articles">Rating</span>
+                        <span class="number1">{{ rating.rating__avg }}</span>
+
+                    </div>
+
+                    <div class="d-flex flex-column">
+
+                        <span class="followers">Sales</span>
+                        <span class="number2">{{ sales }}</span>
+
+                    </div>
+
+
+                    <div class="d-flex flex-column">
+
+                        <span class="rating">Products</span>
+                        <span class="number3">{{ products_len }}</span>
+
+                    </div>
+
+                   </div>
+
+
+                   <div class="button mt-2 d-flex flex-row align-items-center">
+
+                    <a href="{% url 'profile_edit' %}"><button class="btn btn-sm btn-outline-primary w-100">Message</button></a>
+
+
+                   </div>
+
+
+                </div>
+
+
+                </div>
+
+            </div>
+
+         </div>
 
         <div class="profile-products">
-            <h2>My products</h2>
+            <h2>His products</h2>
             <p><a href="{% url 'product_add' %}">Add product</a></p>
             {% for product in products %}
                 <div class="product-card">

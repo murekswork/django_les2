@@ -6,16 +6,23 @@ from .forms import SignUpForm, ProfileForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Avg
 from .models import Profile
+from app.models import Product, Purchase
 
 
 def AccountOverviewView(request):
     if not request.user.is_authenticated:
         return redirect('home')
-    return render(request,
-                  template_name='account_overview.html',
-                  context={'profile': request.user.profile,
-                           'products': request.user.profile.product_set.select_related()})
+    profile = request.user.profile
+    products = request.user.profile.product_set.select_related()
+    rating = products.aggregate(Avg('rating'))
+    context = {'profile': profile,
+               'products': products,
+               'purchases': Purchase.objects.filter(buyer=profile),
+               'products_len': len(products),
+               'rating': rating['rating__avg']}
+    return render(request, template_name='account_overview.html', context=context)
 
 
 @login_required
@@ -43,7 +50,8 @@ def SignUpView(request):
                 user = form.save(commit=False)
                 user.set_password(form.cleaned_data['password'])
                 user.save()
-                user.profile()
+                new_profile = Profile(user_id=user.id)
+                new_profile.save()
                 print(user.username, form.cleaned_data['password'])
                 authentication = authenticate(username=user.username, password=form.cleaned_data['password'])
                 login(request, authentication)

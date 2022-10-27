@@ -9,7 +9,12 @@
                 <a href="{% url 'profile_visit' profile_id=product.profile.user_id %}">{{ product.profile.nickname }}</a>
             </p>
             <p><a>Price: {{ product.price }}</a> <a>Current value: {{ product.value }}</a></p>
-            <p>Rating: {{ product.rating }}</p>
+            <p>Sales: {{ sales }} Rating: {{ product.rating }}</p>
             <p>Description: {{ product.description }}</p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Buy</button>
+            </form>
     </div>
 {% endblock content %}
