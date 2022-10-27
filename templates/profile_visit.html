@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="account-overview-container">
+        <div class="profile">
+            <h1>Profile name: {{ profile.nickname }}</h1>
+            <img src="{{ profile.image_url }}" height="50px" width="50px" alt="">
+            <p>Profile age: {{ profile.age }}</p>
+            <p>Profile about: {{ profile.about }}</p>
+        </div>
+
+        <div class="profile-products">
+            <h2>My products</h2>
+            <p><a href="{% url 'product_add' %}">Add product</a></p>
+            {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ product.image_url }}" height="50px" width="50px" alt="">
+                    <p>Product name: <a href="{% url 'product_page' product_id=product.id %}">{{ product.name }}</a></p>
+                    <p><a>Price: {{ product.price }}</a> <a>Current value: {{ product.value }}</a></p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

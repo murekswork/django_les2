@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="shop-body">
+
+        {% for product in products %}
+            <img src="{{ product.image_url }}" height="100px" width="100" alt="">
+            <p>Product name:
+                <a href="{% url 'product_page' product_id=product.id %}">{{ product.name }}</a>
+                <a href="{% url 'profile_visit' profile_id=product.profile.user_id %}">{{ product.profile.nickname }}</a>
+            </p>
+            <p><a>Price: {{ product.price }}</a> <a>Current value: {{ product.value }}</a></p>
+            <p>Rating: {{ product.rating }}</p>
+        {% endfor %}
+
+    </div>
+
+{% endblock content %}

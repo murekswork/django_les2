@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="add-product-card">
+        <form action="" method="POST" class="product-add">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submut">Save</button>
+        </form>
+    </div>
+{% endblock content %}
