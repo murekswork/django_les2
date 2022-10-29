@@ -25,6 +25,13 @@ def AccountOverviewView(request):
     return render(request, template_name='account_overview.html', context=context)
 
 
+def DeleteProductView(request, product_id):
+    product = Product.objects.get(id=product_id)
+    product.delete()
+    return redirect('profile')
+
+
+
 @login_required
 def UpdateProfileView(request):
     profile_id = request.user.profile

@@ -1,9 +1,12 @@
+from email.policy import default
+
 from django import forms
 from django.forms import ModelForm
-from .models import Product, Purchase, PurchaseReview
+from .models import Product, Purchase, PurchaseReview, ProductCategories
 
 class ProductForm(ModelForm):
 
+    category = forms.ModelChoiceField(queryset=ProductCategories.objects.all())
 
     class Meta:
         model = Product
@@ -26,3 +29,9 @@ class ReviewForm(ModelForm):
         model = PurchaseReview
         fields = ['title', 'description', 'rating']
         exclude = ['product']
+
+SHOP_FILTERS = [('price', 'price'), ('name', 'name'), ('rating', 'rating')]
+
+class FilterForm(forms.Form):
+
+    filter = forms.ChoiceField(choices=SHOP_FILTERS, widget=forms.Select(attrs={'onchange':'this.form.sumbit()'}))

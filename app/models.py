@@ -2,6 +2,12 @@ from django.db import models
 from accounts.models import Profile
 
 
+class ProductCategories(models.Model):
+    name = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     name = models.CharField(max_length=100, default='Product')
     price = models.FloatField(default=99999)
@@ -10,6 +16,13 @@ class Product(models.Model):
     description = models.CharField(max_length=1024, default='No description')
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     image_url = models.URLField(max_length=1024, default='https://image.shutterstock.com/image-vector/unknown-package-question-mark-260nw-1212499930.jpg')
+    category = models.ForeignKey(ProductCategories, blank=True, null=True, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.name
+    def get_purchases_len(self):
+        return len(self.purchase_set.select_related())
 
 
 class PurchaseReview(models.Model):
