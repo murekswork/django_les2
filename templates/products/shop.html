@@ -5,9 +5,11 @@
     <div class="shop-body">
         <form class="form-inline" method="GET">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form }}
+            <button type="submit" class="btn btn-primary sm"> Filter </button>
 
         </form>
+        <div class="card-structure">
         {% for product in products %}
             <div class="card card-body">
                             <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
@@ -25,7 +27,7 @@
 
                                     <ul class="list-inline list-inline-dotted mb-3 mb-lg-2">
                                         <li class="list-inline-item">Rating: {{ product.rating }}</li>
-                                        <li class="list-inline-item">Sales: {{ product.get_purchases_len }}</li>
+                                        <li class="list-inline-item">Sales: {{ product.purchase_len }}</li>
                                     </ul>
 
                                     <p class="mb-3">{{ product.description }}</p>
@@ -53,6 +55,7 @@
                             </div>
                         </div>
         {% endfor %}
+        </div>
 
     </div>
 

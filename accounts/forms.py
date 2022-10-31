@@ -1,4 +1,6 @@
 from django.forms import ModelForm
+from setuptools.msvc import winreg
+
 from .models import User, Profile
 from django import forms
 

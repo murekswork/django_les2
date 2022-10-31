@@ -73,7 +73,7 @@
         <div class="block-left">
             <h2>My products</h2>
             {% for product in products %}
-                <div class="card card-body">
+                <div class="card card-body-overview">
                             <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
                                 <div class="mr-2 mb-3 mb-lg-0">
 
@@ -124,7 +124,8 @@
         <div class="block-right">
             <h2>My purchases</h2>
             {% for purchase in purchases %}
-                <div class="card card-body">
+                {% if purchase.is_payed %}
+                <div class="card card-body-account">
                             <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
                                 <div class="mr-2 mb-3 mb-lg-0">
 
@@ -174,6 +175,7 @@
                     <p><a href="{% url 'review' purchase_id=purchase.id %}">Leave review</a></p>
                     {% endif %}
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
 {% endblock content %}

@@ -5,7 +5,10 @@
     <title>Title</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
-
+        .login-box {
+            margin-top: 5%;
+        }
+        
         .navbar-nav.navbar-center {
             position: absolute;
             left: 50%;
@@ -15,6 +18,22 @@
         .block-left{width:50%;height:800px;overflow:auto;float:left;text-align: left;
         }
         .block-right{width:50%;height:800px;overflow:auto;text-align:right;}
+
+        .card-structure {
+            display: flex;
+        }
+
+        .top-sellers {
+            border: 10px;
+            left: 50%;
+            top: 50%;
+            display: flex;
+        }
+
+        .card-body {
+            width: 400px;
+            height: 500px;
+        }
     </style>
 </head>
 <body>
@@ -26,19 +45,29 @@
             <a class="nav-link" href="{% url 'home' %}">Home</a>
         </li>
         <a class="nav-link" href="{% url 'shop' %}">Shop</a>
-        <a class="nav-link" href="">About</a>
+        {% if user.is_authenticated %}<a class="nav-link" href="{% url 'cart' %}">Cart{{ user.profile.cart.purchase_set.select_related | length }} items ${{ user.profile.cart.cart_total_price     }}</a>{% endif %}
         </ul>
         <ul class >
         {% if user.is_authenticated %}
             You loged in as:<a href="{% url 'profile' %}">{{ user.username }}</a>
+            <a> Balance: {{ user.profile.balance }}</a>
             <a href="{% url 'logout' %}">|Logout</a>
         {% else %}
             <a href="{% url 'login' %}">Login</a>
             <a href="{% url 'signup' %}">Signup</a>
+
         {% endif %}
         </ul>
     </nav>
 </div>
+    {% if messages %}
+        {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}success{% endif %}" role="alert">
+        <li {% if message.tags %} class="{{ message.tags }}{% endif %}">{{ message }}</li>
+    </div>
+    {% endfor %}
+
+    {% endif %}
 {% block content %}
 
 {% endblock content %}

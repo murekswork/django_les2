@@ -1,1 +1,30 @@
 {% extends 'base.html' %}
+
+
+{% block content %}
+    <h3 align="center">Top 5 products of this week</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Saler</th>
+                <th>Sales</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        {% for product in top %}
+        <thead>
+            <tr>
+                <th><a href="{% url 'product_page' product.id %}">{{ product.name }}</a></th>
+                <th><a href="{% url 'profile_visit' profile_id=product.profile.user_id %}">{{ product.profile.nickname }}</a></th>
+                <th>{{ product.purchase_len }}</th>
+                <th>{{ product.rating }}</th>
+            </tr>
+        </thead>
+        {% endfor %}
+    </table>
+    </div>
+
+
+
+{% endblock content %}
