@@ -2,29 +2,73 @@
 
 
 {% block content %}
-    <h3 align="center">Top 5 products of this week</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Saler</th>
-                <th>Sales</th>
-                <th>Rating</th>
-            </tr>
-        </thead>
-        {% for product in top %}
-        <thead>
-            <tr>
-                <th><a href="{% url 'product_page' product.id %}">{{ product.name }}</a></th>
-                <th><a href="{% url 'profile_visit' profile_id=product.profile.user_id %}">{{ product.profile.nickname }}</a></th>
-                <th>{{ product.purchase_len }}</th>
-                <th>{{ product.rating }}</th>
-            </tr>
-        </thead>
-        {% endfor %}
-    </table>
+    <div id="carouselExampleControls" align="center" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+        <h3 class="text-header" align="center" color="orange">TOP 10 PRODUCTS OF THIS WEEK</h3>
+        <table class="table">
+              <thead>
+              <tr class="table-dark">
+                  <td>Top</td>
+                  <td>Photo</td>
+                  <td>Product</td>
+                  <td>Saler</td>
+                  <td>Sales</td>
+                  <td>Rating</td>
+              </tr>
+              </thead>
+              {% for product in top %}
+                  <thead>
+                  <tr class="table-light">
+                      <td scope="col" class="table-dark"><a class="top-digit" href="">{{ forloop.counter }}</a></td>
+                      <td><img src="{{ product.image_url }}" alt="" height="70px" width="70px"></td>
+                      <td><a href="{% url 'product_page' product.id %}">{{ product.name }}</a></td>
+                      <td><a href="{% url 'profile_visit' profile_id=product.profile.user_id %}">{{ product.profile.nickname }}</a></td>
+                      <td>{{ product.purchase_len }}</td>
+                      <td>{{ product.rating }}</td>
+                  </tr>
+                  </thead>
+              {% endfor %}
+          </table>
     </div>
-
+      <div class="carousel-item">
+<a href="{% url 'profile' %}"><img class="d-block w-100" src="https://imageproxy.wolt.com/venue/5aef541f3c831a000b23e34e/8c49a662-4dd1-11ec-9ecd-423a5b23cdfe_mcdonalds4.jpg" alt="First slide"></a>
+      </div>
+          <div class="carousel-item">
+            <img class="d-block w-100" src="https://www.thestreet.com/.image/t_share/MTkwNzA4NDc1MzM1MDI2NTU2/images-mcdonalds-gohan.jpg" alt="Second slide">
+        </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+{#<h3 align="center">Top 5 products of this week</h3>#}
+{#    <table class="table">#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th>Product</th>#}
+{#                <th>Photo</th>#}
+{#                <th>Saler</th>#}
+{#                <th>Sales</th>#}
+{#                <th>Rating</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        {% for product in top %}#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th><a href="{% url 'product_page' product.id %}">{{ product.name }}</a></th>#}
+{#                <th><img src="{{ product.image_url }}" alt="" height="70px" width="70px"></th>#}
+{#                <th><a href="{% url 'profile_visit' profile_id=product.profile.user_id %}">{{ product.profile.nickname }}</a></th>#}
+{#                <th>{{ product.purchase_len }}</th>#}
+{#                <th>{{ product.rating }}</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        {% endfor %}#}
 
 
 {% endblock content %}

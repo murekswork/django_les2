@@ -168,9 +168,9 @@
                         </div>
                 <div class="product-card">
                     {% if purchase.review %}
-                    <h4>Your review:</h4>
-                    <p>{{ purchase.review.title }}</p> <p>Rate: {{ purchase.review.rating }}</p>
-                    <h6>{{ purchase.review.description }}</h6>
+                    <h5>Your review:</h5>
+                        <h5>{{ purchase.review.title }}({{ purchase.review.rating }})</h5>
+                    <h7>Comment: {{ purchase.review.description }}</h7>
                     {% else %}
                     <p><a href="{% url 'review' purchase_id=purchase.id %}">Leave review</a></p>
                     {% endif %}

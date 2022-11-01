@@ -3,26 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet">
     <style>
+
+        body {
+            font-family: Ubuntu;
+        }
         .login-box {
             margin-top: 5%;
         }
-        
+
+        .carousel_inner {
+            padding: 50px;
+            margin: 50px;
+        }
+
         .navbar-nav.navbar-center {
             position: absolute;
             left: 50%;
             transform: translatex(-50%);
             }
 
-        .block-left{width:50%;height:800px;overflow:auto;float:left;text-align: left;
+        .block-left{width:50%;height:800px;overflow:auto;float:left;
+            text-align: center;
         }
-        .block-right{width:50%;height:800px;overflow:auto;text-align:right;}
+        .block-right{width:50%;height:800px;overflow:auto;text-align:right;
+        text-align: center}
 
-        .card-structure {
+        .form-group {
             display: flex;
         }
 
+
+
+
+        .product-card {}
+        .card-structure {
+            {#display: flex;#}
+        }
+        .cart-container {
+            display: flex;
+        }
+        .w-100 {
+            width: 100% !important;
+            align-items: center;
+            align-content: center;
+        }
+
+        .text-header {
+            color: #ff8f38;
+            font-style: initial;
+        }
+        .cart-card {
+            width: auto;
+            height: auto;
+            left: auto;
+            top: auto;
+        }
+        .card-body{
+            width: auto;
+            height: auto;
+        }
         .top-sellers {
             border: 10px;
             left: 50%;
@@ -30,9 +72,44 @@
             display: flex;
         }
 
+        div review-box {
+            height: auto;
+            width: auto;
+            border: coral 10px;
+        }
+
         .card-body {
-            width: 400px;
-            height: 500px;
+            width: auto;
+            height: auto;
+        }
+
+        a {
+            color: orange;
+        }
+
+        a:hover {
+            color: black;
+        }
+
+        .cart-confirm-text {
+            font-size: 40px;
+        }
+
+        a:active {
+            color: red;
+        }
+
+        .nav-link {
+            font-size: 20px;
+        }
+
+        .top-digit {
+            font-size: 30px;
+            color: black;
+        }
+
+        td {
+            font-size: 30px;
         }
     </style>
 </head>
@@ -45,11 +122,11 @@
             <a class="nav-link" href="{% url 'home' %}">Home</a>
         </li>
         <a class="nav-link" href="{% url 'shop' %}">Shop</a>
-        {% if user.is_authenticated %}<a class="nav-link" href="{% url 'cart' %}">Cart{{ user.profile.cart.purchase_set.select_related | length }} items ${{ user.profile.cart.cart_total_price     }}</a>{% endif %}
+        {% if user.is_authenticated %}<a class="nav-link" href="{% url 'cart' %}">Cart {% if user.profile.cart.purchase_set.select_related  %}({{ user.profile.cart.purchase_set.select_related | length }} items ${{ user.profile.cart.cart_total_price     }}){% endif %}</a>{% endif %}
         </ul>
-        <ul class >
+        <ul class="navbar-nav" >
         {% if user.is_authenticated %}
-            You loged in as:<a href="{% url 'profile' %}">{{ user.username }}</a>
+            Hello <a href="{% url 'profile' %}"> {{ user.profile.nickname }}</a>
             <a> Balance: {{ user.profile.balance }}</a>
             <a href="{% url 'logout' %}">|Logout</a>
         {% else %}
@@ -71,5 +148,8 @@
 {% block content %}
 
 {% endblock content %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

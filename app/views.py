@@ -18,8 +18,8 @@ import operator
 
 def HomePageView(request):
 
-    products = Product.objects.order_by('-purchase_len')[:5]
-    products = sorted(products, key=operator.attrgetter('rating'), reverse=True)[:5]
+    products = Product.objects.order_by('-purchase_len')[:10]
+    products = sorted(products, key=operator.attrgetter('rating'), reverse=True)[:10]
     context = {'top': products}
     return render(request, template_name='home.html', context=context)
 
@@ -43,6 +43,12 @@ def ProductPageView(request, product_id):
         if not request.user.profile == product.profile:
             form = PurchaseForm(request.POST)
             if 'buy' in request.POST:
+                context['buy'] = True
+                return render(request, template_name='products/product.html', context = {'product': product,
+                                                                                               'form': form,
+                                                                                               'purchases': product.purchase_set.select_related(),
+                                                                                                'buy': True})
+            if 'confirm' in request.POST:
                 if form.is_valid():
                     if not product.value < int(form.cleaned_data['value']):
                         with transaction.atomic():
@@ -153,14 +159,19 @@ def ProductPageView(request, product_id):
 #         if filter:
 #             self.context['products'] = sorted()
 
+
 def ShopPageView(request):
     products = Product.objects.all()
     form = FilterForm()
     context = {'products': sorted(products, key=operator.attrgetter('id'), reverse=True),
                'form': form}
+
     if request.method == 'GET':
-        filter = request.GET.get('filter')
-        if filter:
+        if 'search' in request.GET:
+            print(request.GET['search'])
+            context['products'] = products.filter(name__icontains=f'{request.GET["search"]}')
+        if 'filter' in request.GET:
+            filter = request.GET.get('filter')
             context['products'] = sorted(products, key=operator.attrgetter(filter), reverse=True)
         # print(filter_value)
         # if filter_value == 'PRICE':
@@ -254,9 +265,11 @@ def CartPageView(request):
 
     cart.get_cart_total_price()
     cart.save()
-    context = {'cart': cart}
 
     if 'checkout' in request.POST:
+        return render(request, template_name='cart.html', context={'cart':cart,
+                                                                   'checkout': True})
+    if 'confirm' in request.POST:
         with transaction.atomic():
             cart_transaction = cart.proc_checkout()
             if cart_transaction['success']:
@@ -265,7 +278,7 @@ def CartPageView(request):
             else:
                 messages.error(request, f'{cart_transaction["error"]}')
 
-    return render(request, template_name='cart.html', context=context)
+    return render(request, template_name='cart.html', context = {'cart': cart})
 
 
 def DeleteFromCartView(request, purchase_id):

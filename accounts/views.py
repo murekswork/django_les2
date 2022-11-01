@@ -13,7 +13,7 @@ from .models import Profile
 from app.models import Product, Purchase
 from django.contrib import messages
 
-
+@login_required
 def AccountOverviewView(request):
     if not request.user.is_authenticated:
         return redirect('home')
@@ -30,10 +30,12 @@ def AccountOverviewView(request):
 
 def DeleteProductView(request, product_id):
     product = Product.objects.get(id=product_id)
-    product.delete()
-    messages.success(request, 'Product deleted!')
-    return redirect('profile')
-
+    if product.profile == request.user.profile:
+        product.delete()
+        messages.success(request, 'Product deleted!')
+        return redirect('profile')
+    messages.error(request, 'It is not your product!')
+    return redirect('product_page', product_id=product.id)
 
 
 @login_required
@@ -51,6 +53,7 @@ def UpdateProfileView(request):
         messages.error(request, f'Error! Invalid account info, try again.')
     form = ProfileForm()
     return render(request, template_name='profile_update.html', context={'form': form})
+
 
 def SignUpView(request):
     if request.user.is_authenticated:
